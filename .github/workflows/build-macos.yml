@@ -7,13 +7,13 @@ on:
 
 jobs:
   build-mac:
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-14
     strategy:
       matrix:
         include:
-          - os: macos-13
+          - arch: x64
             arch_name: Intel-Anciens-Macs
-          - os: macos-14
+          - arch: arm64
             arch_name: PuceApple-Nouveaux-Macs
 
     steps:
@@ -23,7 +23,8 @@ jobs:
     - name: Configuration de Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.11' # Ou la version que vous utilisez
+        python-version: '3.11'
+        architecture: ${{ matrix.arch }}
 
     - name: Installation des dépendances
       run: |
