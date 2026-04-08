@@ -1,0 +1,18 @@
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+import random
+
+app = FastAPI()
+
+# Données simulées qui changent à chaque appel
+@app.get("/data")
+async def get_data():
+    return {
+        "labels": ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+        "values": [random.randint(10, 100) for _ in range(6)]
+    }
+
+@app.get("/", response_class=HTMLResponse)
+async def read_item():
+    with open("index.html", "r") as f:
+        return f.read()

@@ -1,0 +1,87 @@
+
+    <!DOCTYPE html>
+    <html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tableau de Bord Dynamique</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f5f7; margin: 0; padding: 20px; }
+            .container { max-width: 1200px; margin: auto; }
+            .header { text-align: center; margin-bottom: 40px; color: #1f538d; }
+            .charts-wrapper { display: flex; justify-content: space-around; flex-wrap: wrap; }
+            .chart-container { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 45%; min-width: 300px; margin-bottom: 20px; }
+            canvas { max-width: 100%; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Statistiques des Patients (Période: Tout)</h1>
+                <h2>Total: 6</h2>
+            </div>
+            <div class="charts-wrapper">
+                <div class="chart-container">
+                    <canvas id="typeChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="paiementChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Données générées dynamiquement
+            const typeLabels = ["Nouveau", "Urgence"];
+            const typeData = [5, 1];
+            
+            const paiementLabels = ["CMU", "Carte Bancaire", "Ch\u00e8que"];
+            const paiementData = [1, 4, 1];
+            
+            // Graphique des motifs
+            const ctxType = document.getElementById('typeChart').getContext('2d');
+            new Chart(ctxType, {
+                type: 'bar',
+                data: {
+                    labels: typeLabels,
+                    datasets: [{
+                        label: 'Nombre de consultations',
+                        data: typeData,
+                        backgroundColor: ['#3498db', '#9b59b6', '#e74c3c', '#f1c40f', '#e67e22', '#1abc9c', '#34495e'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: { display: true, text: 'Motifs de Consultation', font: { size: 18 } }
+                    },
+                    scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+                }
+            });
+
+            // Graphique des paiements
+            const ctxPaiement = document.getElementById('paiementChart').getContext('2d');
+            new Chart(ctxPaiement, {
+                type: 'doughnut',
+                data: {
+                    labels: paiementLabels,
+                    datasets: [{
+                        label: 'Moyens de Paiement',
+                        data: paiementData,
+                        backgroundColor: ['#2ecc71', '#27ae60', '#1abc9c', '#16a085', '#f39c12', '#d35400', '#8e44ad'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: { display: true, text: 'Moyens de Paiement', font: { size: 18 } }
+                    }
+                }
+            });
+        </script>
+    </body>
+    </html>
+    
