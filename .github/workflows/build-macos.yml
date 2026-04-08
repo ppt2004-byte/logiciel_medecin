@@ -10,9 +10,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # macos-13 est pour les Mac avec processeurs Intel
-        # macos-14 est pour les Mac avec puces Apple (M1, M2, M3...)
-        os: [macos-13, macos-14]
+        include:
+          - os: macos-13
+            arch_name: Intel-Anciens-Macs
+          - os: macos-14
+            arch_name: PuceApple-Nouveaux-Macs
 
     steps:
     - name: Checkout du code
@@ -36,5 +38,5 @@ jobs:
     - name: Upload de l'application (.app)
       uses: actions/upload-artifact@v4
       with:
-        name: LogcielMedecin-macOS-${{ matrix.os }}
+        name: LogcielMedecin-macOS-${{ matrix.arch_name }}
         path: dist/LogcielMedecin.app
