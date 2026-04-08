@@ -36,8 +36,13 @@ jobs:
       run: |
         pyinstaller main.spec
 
-    - name: Upload de l'application (.app)
+    - name: Compression de l'application (pour préserver les droits)
+      run: |
+        cd dist
+        ditto -c -k --keepParent LogcielMedecin.app LogcielMedecin.zip
+
+    - name: Upload de l'application (.zip)
       uses: actions/upload-artifact@v4
       with:
         name: LogcielMedecin-macOS-${{ matrix.arch_name }}
-        path: dist/LogcielMedecin.app
+        path: dist/LogcielMedecin.zip
