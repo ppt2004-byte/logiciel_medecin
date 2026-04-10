@@ -4,18 +4,16 @@ import sys
 from datetime import datetime, timedelta
 
 def get_data_dir():
-    # Détermine le dossier de données de l'application selon l'OS
-    if sys.platform == 'darwin':
-        # macOS
+    # Détermine un dossier de données local au projet pour SQLite
+    if getattr(sys, 'frozen', False):
+        # En production (.app), on évite de casser le bundle MacOS
         base_dir = os.path.join(os.path.expanduser('~'), 'Library', 'Application Support')
-    elif sys.platform == 'win32':
-        # Windows
-        base_dir = os.environ.get('APPDATA', os.path.expanduser('~'))
+        app_dir = os.path.join(base_dir, 'LogicielMedecin')
     else:
-        # Linux / autres
-        base_dir = os.path.join(os.path.expanduser('~'), '.local', 'share')
+        # En developpement local, on utilise le dossier data
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        app_dir = os.path.join(base_dir, 'data')
         
-    app_dir = os.path.join(base_dir, 'LogcielMedecin')
     if not os.path.exists(app_dir):
         os.makedirs(app_dir)
     return app_dir
